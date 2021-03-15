@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="enter_location">Enter your location here..</string>
+    <string name="retry">Retry</string>
+    <string name="current">CURRENT</string>
+    <string name="five_days">5 DAYS</string>
+    <string name="feels_like">Feels like: %s °C</string>
+    <string name="humidity">Humidity: %s%%</string>
+    <string name="see_more">See more</string>
+</resources>

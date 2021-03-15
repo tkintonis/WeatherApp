@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.weatherapp.start.SplashViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/startup_icon1"
+            android:layout_width="@dimen/_80dp"
+            android:layout_height="@dimen/_80dp"
+            android:alpha="1.0"
+            android:elevation="@dimen/_10dp"
+            android:src="@drawable/ic_kaizen_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/_10dp"
+            app:layout_constraintEnd_toStartOf="@+id/startup_icon2"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/startup_icon2"
+            android:layout_width="@dimen/_250dp"
+            android:layout_height="@dimen/_80dp"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_20dp"
+            android:alpha="0.0"
+            android:elevation="@dimen/_10dp"
+            android:src="@drawable/ic_kaizen_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/startup_icon1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/startup_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_30sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@id/startup_icon1"
+            app:layout_constraintStart_toStartOf="@id/startup_icon1"
+            app:layout_constraintTop_toTopOf="@id/startup_icon1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

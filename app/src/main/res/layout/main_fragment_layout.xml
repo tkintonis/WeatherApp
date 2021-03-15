@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.weatherapp.main.MainViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_fragment_coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/toolbar_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/searchView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_16dp"
+                            android:layout_marginTop="@dimen/_16dp"
+                            android:layout_marginEnd="@dimen/_16dp"
+                            android:layout_marginBottom="@dimen/_16dp"
+                            app:cardCornerRadius="@dimen/_8dp"
+                            app:cardElevation="@dimen/_10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/white"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_16dp"
+                                android:weightSum="6">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/location_field"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="5.5"
+                                    android:background="@color/white"
+                                    android:backgroundTint="@color/white"
+                                    android:hint="@string/enter_location"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:text="@={vm.searchQuery}"
+                                    android:textColor="@color/black" />
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.5"
+                                    android:gravity="center">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:onClick="@{() -> vm.clearSearchField()}"
+                                        android:src="@drawable/ic_close"
+                                        android:visibility="@{vm.isLoading() || vm.searchQuery.empty? View.GONE: View.VISIBLE}" />
+
+                                    <ProgressBar
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:indeterminateTint="@color/sky_blue"
+                                        android:visibility="@{vm.isLoading() ? View.VISIBLE : View.GONE}"
+                                        tools:visibility="visible" />
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tab_layout_group_host"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_48dp"
+                            android:background="@android:color/transparent"
+                            android:visibility="@{vm.hasForecastData? View.VISIBLE : View.GONE}"
+                            app:tabIndicatorColor="@color/white"
+                            app:tabSelectedTextColor="@color/white" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="@{vm.hasForecastData ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appBar" />
+
+            <ImageView
+                android:layout_width="@dimen/_250dp"
+                android:layout_height="@dimen/_250dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:src="@drawable/ic_no_result"
+                android:visibility="@{!vm.hasForecastData &amp;&amp; !vm.isLoading()? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appBar" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_24dp"
+                android:backgroundTint="#2F7CCF"
+                android:onClick="@{() -> vm.getWeatherForecast()}"
+                android:src="@drawable/ic_search"
+                android:visibility="@{vm.searchQuery.empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_24dp"
+                android:backgroundTint="@color/sky_blue"
+                android:onClick="@{() -> vm.deleteLocation()}"
+                android:src="@drawable/ic_delete"
+                android:visibility="@{vm.hasForecastData &amp;&amp; vm.existsInList? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toTopOf="@id/search_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_24dp"
+                android:backgroundTint="@color/sky_blue"
+                android:onClick="@{() -> vm.addLocation()}"
+                android:src="@drawable/ic_add"
+                android:visibility="@{vm.hasForecastData &amp;&amp; !vm.existsInList? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toTopOf="@id/search_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@android:color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
